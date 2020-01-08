@@ -1,6 +1,6 @@
 name: stream_listener
-description: A new Flutter package project.
-version: 0.0.1
+description: Flutter widgets the help manage streams and subscriptions
+version: 1.0.0
 homepage: https://github.com/felangel/stream_listener
 
 environment:
@@ -13,4 +13,4 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  effective_dart: ^1.1.1
+  effective_dart: ^1.2.0

@@ -14,19 +14,19 @@ typedef StreamOnDoneListener = void Function();
 ///
 /// ```dart
 /// StreamListener<int>(
-///   stream: Stream.fromIterable([0, 1, 2, 3]),
+///   stream: Stream.fromIterable([0, 1, 2, 3]), // Stream being subscribed to
 ///   onData: (data) {
-///     // react to the emitted data
+///     // React to the emitted data
 ///   },
 ///   onError: (error) {
-///     // optionally handle errors in the Stream
+///     // Optionally handle errors in the Stream
 ///   },
 ///   onDone: () {
-///     // optionally react to when the Stream is closed
+///     // Optionally react to when the Stream is closed
 ///   },
-///   cancelOnError: true, // defaults to false
+///   cancelOnError: true, // Defaults to false
 ///   child: Container(),
-/// ),
+/// )
 /// ```
 /// {@endtemplate}
 class StreamListener<T> extends StatefulWidget {
