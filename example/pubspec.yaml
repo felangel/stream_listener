@@ -11,3 +11,6 @@ dependencies:
     sdk: flutter
   stream_listener:
     path: ../
+
+dev_dependencies:
+  effective_dart: ^1.2.0

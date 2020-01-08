@@ -33,10 +33,12 @@ class StreamListener<T> extends StatefulWidget {
   /// The [Stream] which will be subscribed to.
   final Stream<T> stream;
 
-  /// On each data event from the [stream], the subscriber's [onData] handler is called.
+  /// On each data event from the [stream],
+  /// the subscriber's [onData] handler is called.
   final StreamOnDataListener<T> onData;
 
-  /// The widget which will be rendered as a direct descendant of the [StreamListener].
+  /// The widget which will be rendered
+  /// as a direct descendant of the [StreamListener].
   final Widget child;
 
   /// On errors from this stream, the [onError] handler is called with the
@@ -48,7 +50,8 @@ class StreamListener<T> extends StatefulWidget {
   /// (which could be `null` if this stream itself received an error without
   /// stack trace).
   /// Otherwise it is called with just the error object.
-  /// If [onError] is omitted, any errors on this stream are considered unhandled,
+  /// If [onError] is omitted,
+  /// any errors on this stream are considered unhandled,
   /// and will be passed to the current [Zone]'s error handler.
   /// By default unhandled async errors are treated
   /// as if they were uncaught top-level errors.
