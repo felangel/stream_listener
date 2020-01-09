@@ -1,9 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/widgets.dart';
+import 'package:flutter_stream_listener/flutter_stream_listener.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:stream_listener/stream_listener.dart';
 
 void main() {
   group('Initialization', () {
@@ -117,7 +116,7 @@ void main() {
         StreamListener<int>(
           stream: controller.stream,
           onData: emittedData.add,
-          onError: emittedErrors.add,
+          onError: (e, s) => emittedErrors.add(e),
           child: Container(),
         ),
       );
@@ -142,7 +141,7 @@ void main() {
         StreamListener<int>(
           stream: controller.stream,
           onData: emittedData.add,
-          onError: emittedErrors.add,
+          onError: (e, s) => emittedErrors.add(e),
           child: Container(),
         ),
       );
@@ -172,7 +171,7 @@ void main() {
         StreamListener<int>(
           stream: controller.stream,
           onData: emittedData.add,
-          onError: emittedErrors.add,
+          onError: (e, s) => emittedErrors.add(e),
           cancelOnError: true,
           child: Container(),
         ),

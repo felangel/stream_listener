@@ -4,7 +4,10 @@ import 'package:flutter/widgets.dart';
 
 typedef StreamOnDataListener<T> = void Function(T data);
 
-typedef StreamOnErrorListener = void Function(dynamic error);
+typedef StreamOnErrorListener = void Function(
+  dynamic error,
+  StackTrace stackTrace,
+);
 
 typedef StreamOnDoneListener = void Function();
 

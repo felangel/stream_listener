@@ -8,4 +8,5 @@ jobs:
       - image: cirrusci/flutter:stable
     steps:
       - checkout
-      - run: scripts/run_ci.sh
+      - run: scripts/run_ci.sh packages/flutter_stream_listener
+      - run: scripts/run_ci.sh packages/stream_listener

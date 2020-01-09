@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:stream_listener/stream_listener.dart';
+import 'package:flutter_stream_listener/flutter_stream_listener.dart';
 
 void main() => runApp(MyApp());
 
@@ -21,7 +21,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int data = 0;
+  int _data = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -31,13 +31,15 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: StreamListener(
         stream: Stream.periodic(Duration(seconds: 1), (x) => x + 1).take(10),
-        onData: (d) => setState(() {
-          data = d;
+        onData: (data) => setState(() {
+          _data = data;
         }),
-        onError: (e) => print('onError $e'),
+        onError: (error, stackTrace) => print(
+          'onError $error, $stackTrace',
+        ),
         onDone: () => print('onDone'),
         child: Center(
-          child: Text('Stream Emitted $data'),
+          child: Text('Stream Emitted $_data'),
         ),
       ),
     );

@@ -1,3 +1,9 @@
+# 2.0.0
+
+- Move `StreamListener` to `flutter_stream_listener`
+- Add `StreamListenerMixin`
+- Remove `Flutter` as a dependency
+
 # 1.0.2
 
 - Add License
