@@ -20,20 +20,20 @@ class MyDartClass with StreamListenerMixin {
   }
 
   @override
-  void onData(data) {
+  void onData(stream, data) {
     // React to data emitted from stream(s)
   }
 
   @override
-  void onError(error, stackTrace) {
+  void onError(stream, error, stackTrace) {
     // React to errors emitted from stream(s)
   }
 
   @override
-  bool get cancelOnError => true; // Defaults to false
+  bool cancelOnError(stream) => true; // Defaults to false
 
   @override
-  void onDone() {
+  void onDone(stream) {
     // React to when one or more streams are closed
   }
 }
