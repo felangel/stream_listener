@@ -10,21 +10,31 @@ Dart package the helps manage streams and subscriptions. Built in order to reduc
 
 ## StreamListenerMixin
 
-A `Widget` which manages a `Subscription` to a `Stream` and exposes callbacks: `onData`, `onError`, and `onDone`.
+A Dart `mixin` which allows any Dart Object to `subscribe` to one or more `Streams`.
 
 ```dart
-StreamListener<int>(
-  stream: Stream.fromIterable([0, 1, 2, 3]), // Stream being subscribed to
-  onData: (data) {
-    // React to the emitted data
-  },
-  onError: (error) {
-    // Optionally handle errors in the Stream
-  },
-  onDone: () {
-    // Optionally react to when the Stream is closed
-  },
-  cancelOnError: true, // Defaults to false
-  child: Container(),
-)
+class MyDartClass with StreamListenerMixin {
+  MyDartClass(Stream stream) {
+    // Subscribe to one or more streams
+    subscribe(stream);
+  }
+
+  @override
+  void onData(data) {
+    // React to data emitted from stream(s)
+  }
+
+  @override
+  void onError(error, stackTrace) {
+    // React to errors emitted from stream(s)
+  }
+
+  @override
+  bool get cancelOnError => true; // Defaults to false
+
+  @override
+  void onDone() {
+    // React to when one or more streams are closed
+  }
+}
 ```

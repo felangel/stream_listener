@@ -5,6 +5,7 @@ set -o nounset
 set -o xtrace
 
 cd $1
+package=${PWD##*/}
 
 if grep -q 'sdk: flutter' "./pubspec.yaml"; then
   flutter format --set-exit-if-changed .
@@ -19,7 +20,6 @@ else
   pub run test_coverage
 fi
 
-# Upload coverage results to codecov.io
-bash <(curl -s https://codecov.io/bash)
+cp ./coverage/lcov.info ../../$package.lcov
 
 cd -
