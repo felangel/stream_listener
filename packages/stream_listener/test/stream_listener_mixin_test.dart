@@ -34,16 +34,17 @@ class PopulatedClass with StreamListenerMixin {
   close() => cancel();
 
   @override
-  void onData(data) => onDataCallback?.call(data);
+  void onData(stream, data) => onDataCallback?.call(data);
 
   @override
-  void onError(error, stackTrace) => onErrorCallack?.call(error, stackTrace);
+  void onError(stream, error, stackTrace) =>
+      onErrorCallack?.call(error, stackTrace);
 
   @override
-  bool get cancelOnError => cancelOnErrorFlag;
+  bool cancelOnError(stream) => cancelOnErrorFlag;
 
   @override
-  void onDone() => onDoneCallback?.call();
+  void onDone(stream) => onDoneCallback?.call();
 }
 
 void main() {

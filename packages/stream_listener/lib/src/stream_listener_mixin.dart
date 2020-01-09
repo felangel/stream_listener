@@ -15,26 +15,26 @@ mixin StreamListenerMixin on Object {
   /// cancel all pending `StreamSubscriptions`.
   void subscribe(Stream stream) {
     _subscriptions.add(stream.listen(
-      onData,
-      onDone: onDone,
-      onError: onError,
-      cancelOnError: cancelOnError,
+      (data) => onData(stream, data),
+      onDone: () => onDone(stream),
+      onError: (error, stackTrace) => onError(stream, error, stackTrace),
+      cancelOnError: cancelOnError(stream),
     ));
   }
 
   /// Invoked for each data event from the `stream`.
-  void onData(dynamic data) => {};
+  void onData(Stream stream, dynamic data) => null;
 
   /// Invoked on stream errors with the error object and possibly a stack trace.
-  void onError(dynamic error, StackTrace stackTrace) => {};
+  void onError(Stream stream, dynamic error, StackTrace stackTrace) => null;
 
   /// Invoked if the stream closes.
-  void onDone() => {};
+  void onDone(Stream stream) => null;
 
   /// Flag to determine whether or not to cancel the
   /// subscription if an error is emitted.
   /// Defaults to false.
-  bool get cancelOnError => false;
+  bool cancelOnError(Stream stream) => false;
 
   /// Cancels all existing `StreamSubscriptions`.
   /// If [subscribe] is invoked, then [cancel] should
