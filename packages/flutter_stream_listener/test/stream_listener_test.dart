@@ -50,8 +50,7 @@ void main() {
   });
 
   group('onData', () {
-    testWidgets(
-        'is called when a single piece of data is emitted',
+    testWidgets('is called when a single piece of data is emitted',
         (tester) async {
       final emittedData = <int>[];
       await tester.pumpWidget(
@@ -65,8 +64,7 @@ void main() {
       expect(emittedData, [0]);
     });
 
-    testWidgets(
-        'is called when multiple pieces of data are emitted',
+    testWidgets('is called when multiple pieces of data are emitted',
         (tester) async {
       final emittedData = <int>[];
       await tester.pumpWidget(
