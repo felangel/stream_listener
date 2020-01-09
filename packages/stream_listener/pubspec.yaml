@@ -1,0 +1,12 @@
+name: stream_listener
+description: Dart package that helps manage streams and subscriptions. Built in order to reduce the complexity of having to manually subscribe to streams and cancel subscriptions.
+version: 2.0.0
+homepage: https://github.com/felangel/stream_listener
+
+environment:
+  sdk: ">=2.1.0 <3.0.0"
+
+dev_dependencies:
+  test: ^1.3.0
+  test_coverage: ^0.2.0
+  effective_dart: ^1.2.0

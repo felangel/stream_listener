@@ -1,9 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/widgets.dart';
+import 'package:flutter_stream_listener/flutter_stream_listener.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:stream_listener/stream_listener.dart';
 
 void main() {
   group('Initialization', () {
@@ -51,8 +50,7 @@ void main() {
   });
 
   group('onData', () {
-    testWidgets(
-        'is called when a single piece of data is emitted from the stream',
+    testWidgets('is called when a single piece of data is emitted',
         (tester) async {
       final emittedData = <int>[];
       await tester.pumpWidget(
@@ -66,8 +64,7 @@ void main() {
       expect(emittedData, [0]);
     });
 
-    testWidgets(
-        'is called when multiple pieces of data are emitted from the stream',
+    testWidgets('is called when multiple pieces of data are emitted',
         (tester) async {
       final emittedData = <int>[];
       await tester.pumpWidget(
@@ -94,12 +91,12 @@ void main() {
       await tester.pumpAndSettle();
       expect(emittedData, isEmpty);
 
-      controller.sink.add(0);
+      controller.add(0);
       await tester.pumpAndSettle();
       expect(emittedData, [0]);
 
-      controller.sink.add(0);
-      controller.sink.add(0);
+      controller.add(0);
+      controller.add(0);
       await tester.pumpAndSettle();
       expect(emittedData, [0, 0, 0]);
 
@@ -117,14 +114,14 @@ void main() {
         StreamListener<int>(
           stream: controller.stream,
           onData: emittedData.add,
-          onError: emittedErrors.add,
+          onError: (e, s) => emittedErrors.add(e),
           child: Container(),
         ),
       );
       await tester.pumpAndSettle();
       expect(emittedData, isEmpty);
 
-      controller.sink.addError(expectedError);
+      controller.addError(expectedError);
       await tester.pumpAndSettle();
       expect(emittedData, isEmpty);
       expect(emittedErrors, [expectedError]);
@@ -142,20 +139,20 @@ void main() {
         StreamListener<int>(
           stream: controller.stream,
           onData: emittedData.add,
-          onError: emittedErrors.add,
+          onError: (e, s) => emittedErrors.add(e),
           child: Container(),
         ),
       );
       await tester.pumpAndSettle();
       expect(emittedData, isEmpty);
 
-      controller.sink.addError(expectedError);
+      controller.addError(expectedError);
       await tester.pumpAndSettle();
       expect(emittedData, isEmpty);
       expect(emittedErrors, [expectedError]);
 
-      controller.sink.add(0);
-      controller.sink.add(0);
+      controller.add(0);
+      controller.add(0);
       await tester.pumpAndSettle();
       expect(emittedData, [0, 0]);
 
@@ -172,7 +169,7 @@ void main() {
         StreamListener<int>(
           stream: controller.stream,
           onData: emittedData.add,
-          onError: emittedErrors.add,
+          onError: (e, s) => emittedErrors.add(e),
           cancelOnError: true,
           child: Container(),
         ),
@@ -180,13 +177,13 @@ void main() {
       await tester.pumpAndSettle();
       expect(emittedData, isEmpty);
 
-      controller.sink.addError(expectedError);
+      controller.addError(expectedError);
       await tester.pumpAndSettle();
       expect(emittedData, isEmpty);
       expect(emittedErrors, [expectedError]);
 
-      controller.sink.add(0);
-      controller.sink.add(0);
+      controller.add(0);
+      controller.add(0);
       await tester.pumpAndSettle();
       expect(emittedData, []);
 
