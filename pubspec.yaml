@@ -1,6 +1,6 @@
 name: stream_listener
 description: Flutter widgets the help manage streams and subscriptions. Built in order to reduce the complexity of having to manually subscribe to streams and cancel subscriptions.
-version: 1.0.0
+version: 1.0.1
 homepage: https://github.com/felangel/stream_listener
 
 environment:

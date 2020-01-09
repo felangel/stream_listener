@@ -80,12 +80,12 @@ class StreamListener<T> extends StatefulWidget {
         super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _StreamListenerState<T>();
+  _StreamListenerState createState() => _StreamListenerState<T>();
 }
 
-class _StreamListenerState<T> extends State<StreamListener> {
-  Stream get _stream => widget.stream;
-  StreamSubscription _subscription;
+class _StreamListenerState<T> extends State<StreamListener<T>> {
+  Stream<T> get _stream => widget.stream;
+  StreamSubscription<T> _subscription;
 
   @override
   void initState() {
