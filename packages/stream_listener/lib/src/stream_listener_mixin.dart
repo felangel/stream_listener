@@ -1,9 +1,8 @@
 import 'dart:async';
 
-/// Mixin on [Object] which allows the [Object]
-/// to [subscribe] to multiple `Streams`
+/// Mixin which enables multiple stream subscriptions
 /// and exposes overrides for [onData], [onError], and [onDone] callbacks.
-mixin StreamListenerMixin on Object {
+mixin StreamListenerMixin {
   final _subscriptions = <StreamSubscription<dynamic>>[];
 
   /// Invokes [listen] on the provided [Stream]
