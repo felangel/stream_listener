@@ -2,13 +2,16 @@ import 'dart:async';
 
 import 'package:flutter/widgets.dart';
 
+// ignore: public_member_api_docs
 typedef StreamOnDataListener<T> = void Function(T data);
 
+// ignore: public_member_api_docs
 typedef StreamOnErrorListener = void Function(
   dynamic error,
   StackTrace stackTrace,
 );
 
+// ignore: public_member_api_docs
 typedef StreamOnDoneListener = void Function();
 
 /// {@template stream_listener}
@@ -33,6 +36,17 @@ typedef StreamOnDoneListener = void Function();
 /// ```
 /// {@endtemplate}
 class StreamListener<T> extends StatefulWidget {
+  /// {@macro stream_listener}
+  const StreamListener({
+    Key? key,
+    required this.stream,
+    required this.onData,
+    required this.child,
+    this.onError,
+    this.onDone,
+    this.cancelOnError = false,
+  }) : super(key: key);
+
   /// The [Stream] which will be subscribed to.
   final Stream<T> stream;
 
@@ -58,29 +72,15 @@ class StreamListener<T> extends StatefulWidget {
   /// and will be passed to the current [Zone]'s error handler.
   /// By default unhandled async errors are treated
   /// as if they were uncaught top-level errors.
-  final StreamOnErrorListener onError;
+  final StreamOnErrorListener? onError;
 
   /// If this stream closes and sends a done event, the [onDone] handler is
   /// called. If [onDone] is `null`, nothing happens.
-  final StreamOnDoneListener onDone;
+  final StreamOnDoneListener? onDone;
 
   /// If [cancelOnError] is true, the subscription is automatically canceled
   /// when the first error event is delivered. The default is `false`.
   final bool cancelOnError;
-
-  /// {@macro stream_listener}
-  const StreamListener({
-    Key key,
-    @required this.stream,
-    @required this.onData,
-    @required this.child,
-    this.onError,
-    this.onDone,
-    this.cancelOnError,
-  })  : assert(stream != null),
-        assert(onData != null),
-        assert(child != null),
-        super(key: key);
 
   @override
   _StreamListenerState createState() => _StreamListenerState<T>();
@@ -88,7 +88,7 @@ class StreamListener<T> extends StatefulWidget {
 
 class _StreamListenerState<T> extends State<StreamListener<T>> {
   Stream<T> get _stream => widget.stream;
-  StreamSubscription<T> _subscription;
+  late StreamSubscription<T> _subscription;
 
   @override
   void initState() {
@@ -106,7 +106,7 @@ class _StreamListenerState<T> extends State<StreamListener<T>> {
 
   @override
   void dispose() {
-    _subscription?.cancel();
+    _subscription.cancel();
     super.dispose();
   }
 }

@@ -5,50 +5,6 @@ import 'package:flutter_stream_listener/flutter_stream_listener.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  group('Initialization', () {
-    testWidgets('throws AssertionError if stream is null', (tester) async {
-      try {
-        await tester.pumpWidget(
-          StreamListener<int>(
-            stream: null,
-            onData: (_) {},
-            child: Container(),
-          ),
-        );
-      } on dynamic catch (error) {
-        expect(error, isAssertionError);
-      }
-    });
-
-    testWidgets('throws AssertionError if onData is null', (tester) async {
-      try {
-        await tester.pumpWidget(
-          StreamListener<int>(
-            stream: Stream.fromIterable([0]),
-            onData: null,
-            child: Container(),
-          ),
-        );
-      } on dynamic catch (error) {
-        expect(error, isAssertionError);
-      }
-    });
-
-    testWidgets('throws AssertionError if child is null', (tester) async {
-      try {
-        await tester.pumpWidget(
-          StreamListener<int>(
-            stream: Stream.fromIterable([0]),
-            onData: (_) {},
-            child: null,
-          ),
-        );
-      } on dynamic catch (error) {
-        expect(error, isAssertionError);
-      }
-    });
-  });
-
   group('onData', () {
     testWidgets('is called when a single piece of data is emitted',
         (tester) async {
@@ -95,12 +51,11 @@ void main() {
       await tester.pumpAndSettle();
       expect(emittedData, [0]);
 
-      controller.add(0);
-      controller.add(0);
+      controller..add(0)..add(0);
       await tester.pumpAndSettle();
       expect(emittedData, [0, 0, 0]);
 
-      controller.close();
+      await controller.close();
     });
   });
 
@@ -126,7 +81,7 @@ void main() {
       expect(emittedData, isEmpty);
       expect(emittedErrors, [expectedError]);
 
-      controller.close();
+      await controller.close();
     });
 
     testWidgets('is called and does not cancel subscription by default',
@@ -151,12 +106,11 @@ void main() {
       expect(emittedData, isEmpty);
       expect(emittedErrors, [expectedError]);
 
-      controller.add(0);
-      controller.add(0);
+      controller..add(0)..add(0);
       await tester.pumpAndSettle();
       expect(emittedData, [0, 0]);
 
-      controller.close();
+      await controller.close();
     });
 
     testWidgets('is called and cancels subscription when cancelOnError is true',
@@ -182,11 +136,11 @@ void main() {
       expect(emittedData, isEmpty);
       expect(emittedErrors, [expectedError]);
 
-      controller.add(0);
-      controller.add(0);
+      controller..add(0)..add(0);
       await tester.pumpAndSettle();
       expect(emittedData, []);
 
+      // ignore: unawaited_futures
       controller.close();
     });
   });
@@ -208,7 +162,7 @@ void main() {
       expect(emittedData, isEmpty);
       expect(doneCalled, isFalse);
 
-      controller.close();
+      await controller.close();
       await tester.pumpAndSettle();
       expect(doneCalled, isTrue);
     });

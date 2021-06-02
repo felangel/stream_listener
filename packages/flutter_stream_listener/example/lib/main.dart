@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_stream_listener/flutter_stream_listener.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(const MyApp());
 
 /// Example StreamListener Flutter App
 class MyApp extends StatelessWidget {
+  // ignore: public_member_api_docs
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       title: 'Flutter Demo',
       home: MyHomePage(),
     );
@@ -16,6 +19,9 @@ class MyApp extends StatelessWidget {
 
 /// StatefulWidget which illustrates how to use [StreamListener].
 class MyHomePage extends StatefulWidget {
+  // ignore: public_member_api_docs
+  const MyHomePage({Key? key}) : super(key: key);
+
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
@@ -27,17 +33,19 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('StreamListener Example'),
+        title: const Text('StreamListener Example'),
       ),
       body: StreamListener(
-        stream: Stream.periodic(Duration(seconds: 1), (x) => x + 1).take(10),
-        onData: (data) => setState(() {
+        stream:
+            Stream.periodic(const Duration(seconds: 1), (x) => x + 1).take(10),
+        onData: (dynamic data) => setState(() {
           _data = data;
         }),
-        onError: (error, stackTrace) => print(
+        // ignore: avoid_print
+        onError: (error, stackTrace) => debugPrint(
           'onError $error, $stackTrace',
         ),
-        onDone: () => print('onDone'),
+        onDone: () => debugPrint('onDone'),
         child: Center(
           child: Text('Stream Emitted $_data'),
         ),

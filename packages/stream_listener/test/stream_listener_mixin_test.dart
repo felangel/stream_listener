@@ -7,31 +7,40 @@ import 'package:test/test.dart';
 
 class EmptyClass with StreamListenerMixin {
   EmptyClass({
-    Stream<dynamic> stream,
+    required Stream<dynamic> stream,
   }) {
     subscribe(stream);
   }
 
-  close() => cancel();
+  void close() => cancel();
+
+  @override
+  void onData(Stream stream, data) {}
+
+  @override
+  void onDone(Stream stream) {}
+
+  @override
+  void onError(Stream stream, error, StackTrace stackTrace) {}
 }
 
 class PopulatedClass with StreamListenerMixin {
-  final void Function(dynamic d) onDataCallback;
-  final void Function(dynamic error, StackTrace stackTrace) onErrorCallack;
-  final void Function() onDoneCallback;
-  final bool cancelOnErrorFlag;
-
   PopulatedClass({
-    Stream<dynamic> stream,
+    required Stream<dynamic> stream,
     this.onDataCallback,
     this.onErrorCallack,
     this.onDoneCallback,
-    this.cancelOnErrorFlag,
+    this.cancelOnErrorFlag = false,
   }) {
     subscribe(stream);
   }
 
-  close() => cancel();
+  final void Function(dynamic d)? onDataCallback;
+  final void Function(dynamic error, StackTrace stackTrace)? onErrorCallack;
+  final void Function()? onDoneCallback;
+  final bool cancelOnErrorFlag;
+
+  void close() => cancel();
 
   @override
   void onData(stream, data) => onDataCallback?.call(data);
@@ -56,19 +65,19 @@ void main() {
         stream: controller.stream,
       );
 
-      controller.add(0);
-      controller.addError('oops');
-      controller.close();
+      controller
+        ..add(0)
+        ..addError('oops');
+      await controller.close();
     });
 
     test('cancels all subscriptions', () async {
       final emittedData = <dynamic>[];
       final controller = StreamController<int>();
-      final instance = PopulatedClass(
+      PopulatedClass(
         stream: controller.stream,
         onDataCallback: emittedData.add,
-      );
-      instance.close();
+      ).close();
       await _tick();
       controller.add(0);
       expect(emittedData, isEmpty);
@@ -125,7 +134,7 @@ void main() {
 
         PopulatedClass(
           stream: controller.stream,
-          onDataCallback: emittedData.add,
+          onDataCallback: emittedData.add as void Function(dynamic)?,
           onErrorCallack: (e, s) => emittedErrors.add(e),
         );
 
@@ -137,7 +146,7 @@ void main() {
         expect(emittedData, isEmpty);
         expect(emittedErrors, [expectedError]);
 
-        controller.close();
+        await controller.close();
       });
 
       test('is called and does not cancel subscription by default', () async {
@@ -148,7 +157,7 @@ void main() {
 
         PopulatedClass(
           stream: controller.stream,
-          onDataCallback: emittedData.add,
+          onDataCallback: emittedData.add as void Function(dynamic)?,
           onErrorCallack: (e, s) => emittedErrors.add(e),
         );
 
@@ -160,12 +169,11 @@ void main() {
         expect(emittedData, isEmpty);
         expect(emittedErrors, [expectedError]);
 
-        controller.add(0);
-        controller.add(0);
+        controller..add(0)..add(0);
         await _tick();
         expect(emittedData, [0, 0]);
 
-        controller.close();
+        await controller.close();
       });
 
       test('is called and cancels subscription when cancelOnError is true',
@@ -176,7 +184,7 @@ void main() {
         final expectedError = Exception('oops');
         PopulatedClass(
           stream: controller.stream,
-          onDataCallback: emittedData.add,
+          onDataCallback: emittedData.add as void Function(dynamic)?,
           onErrorCallack: (e, s) => emittedErrors.add(e),
           cancelOnErrorFlag: true,
         );
@@ -189,12 +197,11 @@ void main() {
         expect(emittedData, isEmpty);
         expect(emittedErrors, [expectedError]);
 
-        controller.add(0);
-        controller.add(0);
+        controller..add(0)..add(0);
         await _tick();
         expect(emittedData, []);
 
-        controller.close();
+        await controller.close();
       });
     });
 
@@ -205,7 +212,7 @@ void main() {
         final controller = StreamController<int>();
         PopulatedClass(
           stream: controller.stream,
-          onDataCallback: emittedData.add,
+          onDataCallback: emittedData.add as void Function(dynamic)?,
           onDoneCallback: () => doneCalled = true,
         );
 
@@ -213,7 +220,7 @@ void main() {
         expect(emittedData, isEmpty);
         expect(doneCalled, isFalse);
 
-        controller.close();
+        await controller.close();
         await _tick();
         expect(doneCalled, isTrue);
       });
@@ -221,4 +228,4 @@ void main() {
   });
 }
 
-Future<void> _tick() => Future.delayed(Duration(microseconds: 0));
+Future<void> _tick() => Future.delayed(const Duration(microseconds: 0));
