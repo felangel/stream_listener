@@ -116,14 +116,14 @@ void main() {
 
     group('onError', () {
       test('is called when an error occurs', () async {
-        final emittedData = <int>[];
+        final emittedData = <dynamic>[];
         final emittedErrors = <dynamic>[];
         final controller = StreamController<int>();
         final expectedError = Exception('oops');
 
         PopulatedClass(
           stream: controller.stream,
-          onDataCallback: emittedData.add as void Function(dynamic)?,
+          onDataCallback: emittedData.add,
           onErrorCallack: (e, s) => emittedErrors.add(e),
         );
 
