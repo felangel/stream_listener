@@ -1,25 +1,16 @@
 #!/bin/bash
+# Runs `pana . --no-warning` and verifies that the package score
+# is greater or equal to the desired score. By default the desired score is
+# a perfect score but it can be overridden by passing the desired score as an argument.
+#
+# Ensure the package has a score of at least a 100
+# `./verify_pub_score.sh 100`
+#
+# Ensure the package has a perfect score
+# `./verify_pub_score.sh`
 
-set -o errexit
-set -o nounset
-set -o xtrace
-
-cd $1
-package=${PWD##*/}
-
-if grep -q 'sdk: flutter' "./pubspec.yaml"; then
-  flutter format --set-exit-if-changed .
-  flutter packages get
-  flutter analyze --no-congratulate .
-  flutter test --coverage --coverage-path coverage/lcov.info
-else
-  dartfmt --set-exit-if-changed .
-  pub get
-  dartanalyzer --fatal-infos --fatal-warnings .
-  pub run test # have to run this explicitly as test_coverage is NOT showing exceptions correctly
-  pub run test_cov
-fi
-
-cp ./coverage/lcov.info ../../$package.lcov
-
-cd -
+PANA=$(pana . --no-warning); PANA_SCORE=$(echo $PANA | sed -n "s/.*Points: \([0-9]*\)\/\([0-9]*\)./\1\/\2/p")
+echo "score: $PANA_SCORE"
+IFS='/'; read -a SCORE_ARR <<< "$PANA_SCORE"; SCORE=SCORE_ARR[0]; TOTAL=SCORE_ARR[1]
+if [ -z "${1:-}" ]; then MINIMUM_SCORE=TOTAL; else MINIMUM_SCORE=$1; fi
+if (( $SCORE < $MINIMUM_SCORE )); then echo "minimum score $MINIMUM_SCORE was not met!"; exit 1; fi
