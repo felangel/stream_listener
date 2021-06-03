@@ -96,6 +96,7 @@ unlinked_spec.ds
 # Coverage
 coverage/
 .test_coverage.dart
+.test_cov.dart
 *.lcov
 
 # Exceptions to above rules.

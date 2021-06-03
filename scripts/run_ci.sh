@@ -17,7 +17,7 @@ else
   pub get
   dartanalyzer --fatal-infos --fatal-warnings .
   pub run test # have to run this explicitly as test_coverage is NOT showing exceptions correctly
-  pub run test_coverage
+  pub run test_cov
 fi
 
 cp ./coverage/lcov.info ../../$package.lcov

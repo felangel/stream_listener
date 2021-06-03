@@ -5,7 +5,7 @@ import 'dart:async';
 mixin StreamListenerMixin {
   final _subscriptions = <StreamSubscription<dynamic>>[];
 
-  /// Invokes [listen] on the provided [Stream]
+  /// Invokes [Stream.listen] on the provided [Stream]
   /// and propagates emitted data to the
   /// [onData], [onError], and [onDone] methods.
   ///
@@ -22,13 +22,13 @@ mixin StreamListenerMixin {
   }
 
   /// Invoked for each data event from the `stream`.
-  void onData(Stream stream, dynamic data) => null;
+  void onData(Stream stream, dynamic data) {}
 
   /// Invoked on stream errors with the error object and possibly a stack trace.
-  void onError(Stream stream, dynamic error, StackTrace stackTrace) => null;
+  void onError(Stream stream, dynamic error, StackTrace stackTrace) {}
 
   /// Invoked if the stream closes.
-  void onDone(Stream stream) => null;
+  void onDone(Stream stream) {}
 
   /// Flag to determine whether or not to cancel the
   /// subscription if an error is emitted.

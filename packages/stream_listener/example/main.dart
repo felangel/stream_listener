@@ -1,3 +1,4 @@
+// ignore_for_file: avoid_print
 import 'dart:async';
 
 import 'package:stream_listener/stream_listener.dart';
@@ -48,11 +49,11 @@ void main() async {
   await tick();
 
   // onDone Instance of '_ControllerStream<int>'
-  controller.close();
+  await controller.close();
   await tick();
 
   // Don't forget to cancel all StreamSubscriptions!
   myClass.cancel();
 }
 
-Future<void> tick() => Future.delayed(Duration(seconds: 1));
+Future<void> tick() => Future.delayed(const Duration(seconds: 1));
