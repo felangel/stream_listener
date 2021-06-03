@@ -8,5 +8,4 @@ environment:
 
 dev_dependencies:
   test: ^1.17.5
-  test_cov: ^1.0.1
   very_good_analysis: ^2.1.1
