@@ -1,9 +1,9 @@
 # stream_listener
 
 [![Pub](https://img.shields.io/pub/v/stream_listener.svg)](https://pub.dev/packages/stream_listener)
-[![Build Status](https://circleci.com/gh/felangel/stream_listener.svg?style=shield)](https://circleci.com/gh/felangel/stream_listener)
+[![stream_listener](https://github.com/felangel/stream_listener/actions/workflows/stream_listener.yaml/badge.svg)](https://github.com/felangel/stream_listener/actions/workflows/stream_listener.yaml)
 [![codecov](https://codecov.io/gh/felangel/stream_listener/branch/master/graph/badge.svg)](https://codecov.io/gh/felangel/stream_listener)
-[![style: effective dart](https://img.shields.io/badge/style-effective_dart-40c4ff.svg)](https://github.com/tenhobi/effective_dart)
+[![style: very good analysis](https://img.shields.io/badge/style-very_good_analysis-B22C89.svg)](https://pub.dev/packages/very_good_analysis)
 [![License: MIT](https://img.shields.io/badge/license-MIT-purple.svg)](https://opensource.org/licenses/MIT)
 
 Dart package the helps manage streams and subscriptions. Built in order to reduce the complexity of having to manually subscribe to streams and cancel subscriptions.
@@ -91,12 +91,12 @@ void main() async {
   await tick();
 
   // onDone Instance of '_ControllerStream<int>'
-  controller.close();
+  await controller.close();
   await tick();
 
   // Don't forget to cancel all StreamSubscriptions!
   myClass.cancel();
 }
 
-Future<void> tick() => Future.delayed(Duration(seconds: 1));
+Future<void> tick() => Future.delayed(const Duration(seconds: 1));
 ```
