@@ -6,22 +6,11 @@ import 'package:stream_listener/stream_listener.dart';
 import 'package:test/test.dart';
 
 class EmptyClass with StreamListenerMixin {
-  EmptyClass({
-    required Stream<dynamic> stream,
-  }) {
+  EmptyClass({required Stream<dynamic> stream}) {
     subscribe(stream);
   }
 
   void close() => cancel();
-
-  @override
-  void onData(Stream stream, data) {}
-
-  @override
-  void onDone(Stream stream) {}
-
-  @override
-  void onError(Stream stream, error, StackTrace stackTrace) {}
 }
 
 class PopulatedClass with StreamListenerMixin {
@@ -150,14 +139,14 @@ void main() {
       });
 
       test('is called and does not cancel subscription by default', () async {
-        final emittedData = <int>[];
+        final emittedData = <dynamic>[];
         final emittedErrors = <dynamic>[];
         final controller = StreamController<int>();
         final expectedError = Exception('oops');
 
         PopulatedClass(
           stream: controller.stream,
-          onDataCallback: emittedData.add as void Function(dynamic)?,
+          onDataCallback: emittedData.add,
           onErrorCallack: (e, s) => emittedErrors.add(e),
         );
 
@@ -178,13 +167,13 @@ void main() {
 
       test('is called and cancels subscription when cancelOnError is true',
           () async {
-        final emittedData = <int>[];
+        final emittedData = <dynamic>[];
         final emittedErrors = <dynamic>[];
         final controller = StreamController<int>();
         final expectedError = Exception('oops');
         PopulatedClass(
           stream: controller.stream,
-          onDataCallback: emittedData.add as void Function(dynamic)?,
+          onDataCallback: emittedData.add,
           onErrorCallack: (e, s) => emittedErrors.add(e),
           cancelOnErrorFlag: true,
         );
@@ -207,12 +196,12 @@ void main() {
 
     group('onDone', () {
       test('is called when the stream is closed', () async {
-        final emittedData = <int>[];
+        final emittedData = <dynamic>[];
         var doneCalled = false;
         final controller = StreamController<int>();
         PopulatedClass(
           stream: controller.stream,
-          onDataCallback: emittedData.add as void Function(dynamic)?,
+          onDataCallback: emittedData.add,
           onDoneCallback: () => doneCalled = true,
         );
 

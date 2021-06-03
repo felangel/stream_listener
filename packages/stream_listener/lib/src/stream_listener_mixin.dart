@@ -22,13 +22,13 @@ mixin StreamListenerMixin {
   }
 
   /// Invoked for each data event from the `stream`.
-  void onData(Stream stream, dynamic data);
+  void onData(Stream stream, dynamic data) {}
 
   /// Invoked on stream errors with the error object and possibly a stack trace.
-  void onError(Stream stream, dynamic error, StackTrace stackTrace);
+  void onError(Stream stream, dynamic error, StackTrace stackTrace) {}
 
   /// Invoked if the stream closes.
-  void onDone(Stream stream);
+  void onDone(Stream stream) {}
 
   /// Flag to determine whether or not to cancel the
   /// subscription if an error is emitted.

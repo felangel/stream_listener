@@ -1,3 +1,4 @@
+// ignore_for_file: avoid_print
 import 'dart:async';
 
 import 'package:stream_listener/stream_listener.dart';
@@ -9,19 +10,16 @@ class MyClass with StreamListenerMixin {
 
   @override
   void onData(Stream stream, dynamic data) {
-    // ignore: avoid_print
     print('onData $stream, $data');
   }
 
   @override
   void onError(Stream stream, dynamic error, StackTrace stackTrace) {
-    // ignore: avoid_print
     print('onError $stream, $error, $stackTrace');
   }
 
   @override
   void onDone(Stream stream) {
-    // ignore: avoid_print
     print('onDone $stream');
   }
 }

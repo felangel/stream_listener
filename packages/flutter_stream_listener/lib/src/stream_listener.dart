@@ -2,16 +2,16 @@ import 'dart:async';
 
 import 'package:flutter/widgets.dart';
 
-// ignore: public_member_api_docs
+/// Signature for the `onData` callback.
 typedef StreamOnDataListener<T> = void Function(T data);
 
-// ignore: public_member_api_docs
+/// Signature for the `onError` callback.
 typedef StreamOnErrorListener = void Function(
   dynamic error,
   StackTrace stackTrace,
 );
 
-// ignore: public_member_api_docs
+/// Signature for the `onDone` callback.
 typedef StreamOnDoneListener = void Function();
 
 /// {@template stream_listener}
@@ -87,13 +87,12 @@ class StreamListener<T> extends StatefulWidget {
 }
 
 class _StreamListenerState<T> extends State<StreamListener<T>> {
-  Stream<T> get _stream => widget.stream;
-  late StreamSubscription<T> _subscription;
+  late final StreamSubscription<T> _subscription;
 
   @override
   void initState() {
     super.initState();
-    _subscription = _stream.listen(
+    _subscription = widget.stream.listen(
       widget.onData,
       onError: widget.onError,
       onDone: widget.onDone,
