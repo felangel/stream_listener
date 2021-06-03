@@ -1,3 +1,7 @@
+# 3.0.0
+
+- feat!: migrate to null safety
+
 # 2.0.0
 
 - Move `StreamListener` to `flutter_stream_listener`
